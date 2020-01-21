@@ -1,19 +1,52 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from "@actions/core";
+import { context, GitHub } from "@actions/github";
 
-async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function handleError(err: any): void {
+  console.error(err);
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    core.setFailed(error.message)
+  if (err && err.message) {
+    core.setFailed(err.message);
+  } else {
+    core.setFailed(`Unhandled error: ${err}`);
   }
 }
 
-run()
+process.on("unhandledRejection", handleError);
+
+async function run(): Promise<void> {
+  const token = core.getInput("github-token", { required: true });
+  const client = new GitHub(token);
+
+  const branch = context.ref.replace("refs/heads/", "");
+
+  const { data: commits } = await client.repos.listCommits({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    sha: branch
+  });
+  core.info(`Number of commits: ${commits.length}`);
+
+  let result = "";
+  for (const { sha } of commits) {
+    const {
+      data: { check_suites: checkSuites }
+    } = await client.checks.listSuitesForRef({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      ref: sha
+    });
+    const success = checkSuites.find(
+      c => c.status === "completed" && c.conclusion === "success"
+    );
+    if (success) {
+      result = success.head_sha;
+      break;
+    }
+  }
+  core.info(`Commit: ${result}`);
+
+  core.setOutput("result", result);
+}
+
+run().catch(handleError);

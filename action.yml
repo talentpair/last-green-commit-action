@@ -1,10 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: "Last Green Commit Action"
+description: "Get the last green commit on your branch."
+author: "Ben Brandt / Talentpair"
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    required: true
+outputs:
+  result:
+    description: The sha of the last green commit, or an empty string.
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
+branding:
+  icon: "check"
+  color: "green"
