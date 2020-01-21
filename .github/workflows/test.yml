@@ -19,5 +19,5 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: ./
-      - with:
+        with:
           github-token: ${{secrets.GITHUB_TOKEN}}
