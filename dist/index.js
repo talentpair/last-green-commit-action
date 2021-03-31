@@ -57,19 +57,19 @@ function run() {
         const { data: commits } = yield octokit.repos.listCommits({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
-            sha: branch
+            sha: branch,
         });
         core.info(`Number of commits: ${commits.length}`);
         let result = "";
         for (const { sha } of commits) {
-            const { data: { check_suites: checkSuites } } = yield octokit.checks.listSuitesForRef({
+            const { data: { check_suites: checkSuites }, } = yield octokit.checks.listSuitesForRef({
                 owner: github_1.context.repo.owner,
                 repo: github_1.context.repo.repo,
-                ref: sha
+                ref: sha,
             });
-            const success = checkSuites.find(c => c.status === "completed" && c.conclusion === "success");
-            if (success) {
-                result = success.head_sha;
+            if (checkSuites.length &&
+                checkSuites.every((c) => c.status === "completed" && c.conclusion === "success")) {
+                result = checkSuites[0].head_sha;
                 break;
             }
         }

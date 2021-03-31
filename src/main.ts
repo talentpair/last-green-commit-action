@@ -36,11 +36,13 @@ async function run(): Promise<void> {
       repo: context.repo.repo,
       ref: sha,
     });
-    const success = checkSuites.find(
-      (c) => c.status === "completed" && c.conclusion === "success"
-    );
-    if (success) {
-      result = success.head_sha;
+    if (
+      checkSuites.length &&
+      checkSuites.every(
+        (c) => c.status === "completed" && c.conclusion === "success"
+      )
+    ) {
+      result = checkSuites[0].head_sha;
       break;
     }
   }
