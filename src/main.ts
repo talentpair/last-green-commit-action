@@ -23,21 +23,21 @@ async function run(): Promise<void> {
   const { data: commits } = await octokit.repos.listCommits({
     owner: context.repo.owner,
     repo: context.repo.repo,
-    sha: branch
+    sha: branch,
   });
   core.info(`Number of commits: ${commits.length}`);
 
   let result = "";
   for (const { sha } of commits) {
     const {
-      data: { check_suites: checkSuites }
+      data: { check_suites: checkSuites },
     } = await octokit.checks.listSuitesForRef({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      ref: sha
+      ref: sha,
     });
     const success = checkSuites.find(
-      c => c.status === "completed" && c.conclusion === "success"
+      (c) => c.status === "completed" && c.conclusion === "success"
     );
     if (success) {
       result = success.head_sha;
