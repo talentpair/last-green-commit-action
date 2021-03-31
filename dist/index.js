@@ -67,9 +67,9 @@ function run() {
                 repo: github_1.context.repo.repo,
                 ref: sha,
             });
-            if (checkSuites.length &&
-                checkSuites.every((c) => c.status === "completed" && c.conclusion === "success")) {
-                result = checkSuites[0].head_sha;
+            const success = checkSuites.find((c) => c.status === "completed" && c.conclusion === "success");
+            if (success) {
+                result = success.head_sha;
                 break;
             }
         }
