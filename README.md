@@ -2,19 +2,30 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action using TypeScript
+# last-green-commit-action: Get the last green commit in your git branch
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+There are times when it is handy to know what commit was the last one to pass all CI checks. We use this to do a `git diff` since the last green commit and decide which portions of our monorepos need to be tested or deployed.
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.
+## Using this action
 
-If you are new, there's also a simpler introduction. See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+You'll have to bring your own script to do anything like that with your own repo, but getting the last green commit is the first step!
 
-## Create an action from this template
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: talentpair/last-green-commit-action@master
+        id: last-green-commit
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+      # In our case, this is a node script that reads the ENV variable and does the git diffing analysis
+      - run: yarn test:ci
+        env:
+          LAST_GREEN_COMMIT: ${{ steps.last-green-commit.outputs.result }}
+```
 
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Main
+## Contributing
 
 > First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
 
