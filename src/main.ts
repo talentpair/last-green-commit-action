@@ -20,7 +20,7 @@ async function run(): Promise<void> {
 
   const branch = context.ref.replace("refs/heads/", "");
 
-  const { data: commits } = await octokit.repos.listCommits({
+  const { data: commits } = await octokit.rest.repos.listCommits({
     owner: context.repo.owner,
     repo: context.repo.repo,
     sha: branch,
@@ -31,7 +31,7 @@ async function run(): Promise<void> {
   for (const { sha } of commits) {
     const {
       data: { check_suites: checkSuites },
-    } = await octokit.checks.listSuitesForRef({
+    } = await octokit.rest.checks.listSuitesForRef({
       owner: context.repo.owner,
       repo: context.repo.repo,
       ref: sha,
