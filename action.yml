@@ -9,7 +9,7 @@ outputs:
   result:
     description: The sha of the last green commit, or an empty string.
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"
 branding:
   icon: "check"

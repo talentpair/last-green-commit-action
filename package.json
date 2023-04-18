@@ -1,6 +1,6 @@
 {
   "name": "last-green-commit-action",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Github Action to get the last green commit on your branch",
   "main": "lib/main.js",
@@ -25,28 +25,28 @@
   "author": "Ben Brandt / Talentpair",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.3.0",
-    "@actions/github": "^5.0.0"
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.6.1",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
-    "@vercel/ncc": "^0.28.6",
-    "eslint": "^7.27.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^24.3.6",
-    "eslint-plugin-prettier": "^3.4.0",
-    "jest": "^27.0.3",
-    "jest-circus": "^27.0.3",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vercel/ncc": "^0.36.1",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^27.5.1",
+    "jest-circus": "^27.5.1",
     "js-yaml": "^4.1.0",
-    "prettier": "^2.3.0",
+    "prettier": "^2.8.7",
     "ts-jest": "^27.0.2",
-    "typescript": "^4.3.2"
+    "typescript": "^4.9.5"
   },
   "volta": {
-    "node": "14.16.0",
+    "node": "18.12.0",
     "yarn": "1.22.5"
   }
 }
